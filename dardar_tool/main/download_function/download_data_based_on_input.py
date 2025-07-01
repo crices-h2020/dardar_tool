@@ -115,13 +115,12 @@ def read_pickle(filename):
     return loaded_data
 
 
-def load_user_config():
-    current_path = os.path.abspath(__file__)
-    setup_path = os.path.dirname(os.path.dirname(os.path.dirname(current_path)))
-    uk = read_pickle(os.path.join(setup_path, "source/setup_file_00"))
-    un = read_pickle(os.path.join(setup_path, "source/setup_file_01"))
-    pk = read_pickle(os.path.join(setup_path, "source/setup_file_10"))
-    pn = read_pickle(os.path.join(setup_path, "source/setup_file_11"))
+def load_user_config(key_location):
+    user_path = key_location.rstrip("/")
+    uk = read_pickle(os.path.join(user_path, "setup_file_00"))
+    un = read_pickle(os.path.join(user_path, "setup_file_01"))
+    pk = read_pickle(os.path.join(user_path, "setup_file_10"))
+    pn = read_pickle(os.path.join(user_path, "setup_file_11"))
     cipher_n = Fernet(uk)    
     username = cipher_n.decrypt(un)
     cipher_p = Fernet(pk)    
@@ -129,10 +128,10 @@ def load_user_config():
     return username, password
 
 
-def download_t_v2(file_list, data_product, save_path):
+def download_t_v2(file_list, data_product, save_path, key_location):
     hostname = "sftp.icare.univ-lille.fr"
     port = 22
-    username, password = load_user_config()
+    username, password = load_user_config(key_location)
     with paramiko.Transport((hostname, port)) as transport:
         transport.connect(username=username, password=password)
         with paramiko.SFTPClient.from_transport(transport) as sftp:
@@ -153,10 +152,10 @@ def download_t_v2(file_list, data_product, save_path):
                     sftp.get(remote_file_path, local_path)
 
 
-def download_t_v3(file_list, version_number, save_path):
+def download_t_v3(file_list, version_number, save_path, key_location):
     hostname = "sftp.icare.univ-lille.fr"
     port = 22
-    username, password = load_user_config()
+    username, password = load_user_config(key_location)
     with paramiko.Transport((hostname, port)) as transport:
         transport.connect(username=username, password=password)
         with paramiko.SFTPClient.from_transport(transport) as sftp:
@@ -177,7 +176,7 @@ def download_t_v3(file_list, version_number, save_path):
                     sftp.get(remote_file_path, local_path)
 
 
-def download_based_on_filenumber(file_list, cloud_0_mask_1, save_path, version):
+def download_based_on_filenumber(file_list, cloud_0_mask_1, save_path, version, key_location):
     if version == "V2":
         if cloud_0_mask_1 == 0:
             data_product = "CLOUD.v2.1.1"
@@ -186,14 +185,14 @@ def download_based_on_filenumber(file_list, cloud_0_mask_1, save_path, version):
         else:
             print("Define data type cloud or mask!")
             data_product = None
-        download_t_v2(file_list, data_product, save_path)
+        download_t_v2(file_list, data_product, save_path, key_location)
     else:
         if cloud_0_mask_1 == 1:
             print("Only cloud files available for V3!\nCheck function input: cloud_0_mask_1")
         else:
             version_num = version.split("V3")[-1]
             if version_num == "0" or version_num == "1":
-                download_t_v3(file_list, version_num, save_path)
+                download_t_v3(file_list, version_num, save_path, key_location)
             else:
                 print("Problems with version information!\nCheck function inputs!")
 
@@ -203,7 +202,7 @@ def download_based_on_filenumber(file_list, cloud_0_mask_1, save_path, version):
 # Main program
 # ########################################################################
 
-def download_based_on_input(start_date, end_date, lat_1, lat_2, lon_1, lon_2, version="V30", cloud_0_mask_1=0, save_path="validation_data"):
+def download_based_on_input(start_date, end_date, lat_1, lat_2, lon_1, lon_2, version="V30", cloud_0_mask_1=0, save_path="validation_data", key_location=""):
     current_path = os.path.abspath(__file__)
     path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(current_path))))
     os.makedirs(f"{path}/{save_path}", exist_ok=True)
@@ -211,7 +210,7 @@ def download_based_on_input(start_date, end_date, lat_1, lat_2, lon_1, lon_2, ve
     file_list = lut_duplicate_filter(file_list)
     print(f"{len(file_list)} files found for this spatio temporal location.")
     print(f"Saving location: {save_path} \nProceeding with downloading...")
-    download_based_on_filenumber(file_list, cloud_0_mask_1, save_path, version)
+    download_based_on_filenumber(file_list, cloud_0_mask_1, save_path, version, key_location)
 
 
 def check_overpass(start_date, end_date, lat_1, lat_2, lon_1, lon_2, version="V30", ploting_on=True):
