@@ -18,6 +18,7 @@ import glob
 import warnings
 import sys
 import os
+import inspect
 
 import numpy as np
 
@@ -317,7 +318,16 @@ def print_message(message1, message2, print_on):
 # ########################################################################
 
 
-def raw_validation_data_creator(start_date, end_date, lat_1, lat_2, lon_1, lon_2, variable_name, vertical_profile=None, exclude_top_on=True, exclude_bottom_on=True, verbose=1, auto_load_missing_files=True, version="V30", save_results=False, save_results_name="cloud_data", raw_data_loc=default_dardar_path, key_location=""):
+def raw_validation_data_creator(start_date, end_date, lat_1, lat_2, lon_1, lon_2, variable_name, vertical_profile=None, exclude_top_on=True, exclude_bottom_on=True, verbose=1, auto_load_missing_files=False, version="V30", save_results=False, save_results_name="cloud_data", raw_data_loc=None, key_location=""):
+    if raw_data_loc:
+        raw_data_loc = raw_data_loc
+        print(f"Using user provided directory {raw_data_loc}")
+    else:
+        caller_frame = inspect.stack()[1]
+        caller_file = caller_frame.filename
+        raw_data_loc = os.path.dirname(os.path.abspath(caller_file))
+        print(f"Using directory {raw_data_loc}")
+
     if version == "V2":
         file_list = sorted(glob.glob(f"{raw_data_loc}/*.hdf"))
     else:
@@ -340,7 +350,13 @@ def raw_validation_data_creator(start_date, end_date, lat_1, lat_2, lon_1, lon_2
     if (missing_files_count > 0) and auto_load_missing_files:
         print("Files on your data folder didn't include all files that are relevant for chosen spatiotemporal location. \nDownloading missing files.")
         missing_files_list = check_for_missing_file(file_list, relevant_files_list)
-        load_functions.download_based_on_filenumber(missing_files_list, 0, raw_data_loc, version, key_location)
+        
+        if key_location:
+            load_functions.download_based_on_filenumber(missing_files_list, 0, raw_data_loc, version, key_location)
+        else:
+            print("Provide a key location if you want to download files!")
+            sys.exit(0)
+            
 
     elif (missing_files_count > 0) and (auto_load_missing_files == False):
         print("Files on your data folder didn't include all files that are relevant for chosen spatiotemporal location.")
@@ -437,7 +453,7 @@ def raw_validation_data_creator(start_date, end_date, lat_1, lat_2, lon_1, lon_2
     return final_time, final_lat, final_lon, final_profile, vert_profile
 
 
-def extractor_plotting_tool(start_date, end_date, lat_1, lat_2, lon_1, lon_2, variable_name, vertical_profile, exclude_top_on=True, exclude_bottom_on=True, flight_separation_time=1, flight_separation_unit="m", colormap="viridis", verbose=1, auto_load_missing_files=True, version="V30", raw_data_loc=default_dardar_path, key_location=""):
+def extractor_plotting_tool(start_date, end_date, lat_1, lat_2, lon_1, lon_2, variable_name, vertical_profile, exclude_top_on=True, exclude_bottom_on=True, flight_separation_time=1, flight_separation_unit="m", colormap="viridis", verbose=1, auto_load_missing_files=True, version="V30", raw_data_loc=None, key_location=""):
     save_results=False
     save_results_name="" 
     profile_dardar = None

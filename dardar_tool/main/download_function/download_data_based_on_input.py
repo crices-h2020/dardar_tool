@@ -26,6 +26,7 @@ import os
 import sys
 import paramiko
 import pickle
+import inspect
 import numpy as np
 
 from cryptography.fernet import Fernet
@@ -202,10 +203,15 @@ def download_based_on_filenumber(file_list, cloud_0_mask_1, save_path, version, 
 # Main program
 # ########################################################################
 
-def download_based_on_input(start_date, end_date, lat_1, lat_2, lon_1, lon_2, version="V30", cloud_0_mask_1=0, save_path="validation_data", key_location=""):
-    current_path = os.path.abspath(__file__)
-    path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(current_path))))
-    os.makedirs(f"{path}/{save_path}", exist_ok=True)
+def download_based_on_input(start_date, end_date, lat_1, lat_2, lon_1, lon_2, version="V30", cloud_0_mask_1=0, save_path=None, key_location=""):
+    if save_path:
+        save_path = os.path.normpath(save_path)
+        save_path = os.path.basename(save_path)
+        print(f"Using user provided directory {save_path}")
+    else:
+        caller_frame = inspect.stack()[1]
+        caller_file = caller_frame.filename
+        save_path = os.path.dirname(os.path.abspath(caller_file))
     file_list = select_files_to_download_load(start_date, end_date, lat_1, lat_2, lon_1, lon_2, version)
     file_list = lut_duplicate_filter(file_list)
     print(f"{len(file_list)} files found for this spatio temporal location.")
