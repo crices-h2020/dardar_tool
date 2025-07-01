@@ -130,13 +130,13 @@ def calculate_cumulative_values_for_column(profile_values):
     return cumulative_values
 
 
-def scale_data_resolution(time_array, latitude_array, longitude_array, profile_values, vertical_profile, latitude_resolution=None, longitude_resolution=None, height_resolution=None, time_resolution=None):
-    vertical_height_profile, profile_values = check_mask(vertical_profile.data, profile_values, vertical_profile.mask)
+def scale_data_resolution(time_array, latitude_array, longitude_array, vertical_profile, variable, latitude_resolution=None, longitude_resolution=None, height_resolution=None, time_resolution=None):
+    vertical_height_profile, variable = check_mask(vertical_profile.data, variable, vertical_profile.mask)
     if height_resolution != None:
         new_reso_height = round_to_resolution(vertical_height_profile, height_resolution)
         height_tags = create_tag_array(new_reso_height)
         vertical_height_profile = coord_scaling(height_tags, new_reso_height)
-        profile_values = mean_profile_height(height_tags, profile_values)
+        variable = mean_profile_height(height_tags, variable)
     if latitude_resolution == None:
         latitude_resolution = np.min(np.abs(np.diff(latitude_array)))
     if longitude_resolution == None:
@@ -155,8 +155,8 @@ def scale_data_resolution(time_array, latitude_array, longitude_array, profile_v
         id_arr = calc_groups(lat_tag_array, lon_tag_array)
     lat_scaled = coord_scaling(id_arr, new_reso_latitudes)
     lon_scaled = coord_scaling(id_arr, new_reso_longitudes)
-    profile_scaled = mean_profile_vals(id_arr, profile_values)
-    return time_array, lat_scaled, lon_scaled, profile_scaled, vertical_height_profile
+    profile_scaled = mean_profile_vals(id_arr, variable)
+    return time_array, lat_scaled, lon_scaled, vertical_height_profile, profile_scaled
 
 
 # In[]:

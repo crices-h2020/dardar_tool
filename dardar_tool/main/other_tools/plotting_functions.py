@@ -287,17 +287,17 @@ def plot_saved_data(filename, zoom_map_in_out=5, flight_separation_time=1, fligh
         plot_combined(i_time, i_lat, i_lon, i_profile, alt_profile, zoom_map_in_out, str(ind+1), colormap=colormap)
 
 
-def plot_local_data(time, latitude, longitude, vertical_altitudes, vertical_profile, zoom_map_in_out=5, flight_separation_time=1, flight_separation_unit="m", colormap="viridis"):
-    final_time, final_lat, final_lon, final_profile = separate_flights(time, latitude, longitude, vertical_profile, flight_separation_time, flight_separation_unit)
+def plot_local_data(time_array, latitude_array, longitude_array, vertical_profile, variable, zoom_map_in_out=5, flight_separation_time=1, flight_separation_unit="m", colormap="viridis"):
+    final_time, final_lat, final_lon, final_profile = separate_flights(time_array, latitude_array, longitude_array, variable, flight_separation_time, flight_separation_unit)
     for ind, (i_time, i_lat, i_lon, i_profile) in enumerate(zip(final_time, final_lat, final_lon, final_profile)):
-        plot_combined(i_time, i_lat, i_lon, i_profile, vertical_altitudes, zoom_map_in_out, str(ind+1), colormap=colormap)
+        plot_combined(i_time, i_lat, i_lon, i_profile, vertical_profile, zoom_map_in_out, str(ind+1), colormap=colormap)
 
 
-def plot_model_vs_dardar_data_vertical(m_tim, m_lat, m_lon, m_vertical_altitudes, m_vertical_profile, vertical_profile, flight_separation_time=1, flight_separation_unit="m", zoom_map_in_out=5, colormap="viridis"):
-    final_time, final_lat, final_lon, m_final_profile = separate_flights(m_tim, m_lat, m_lon, m_vertical_profile, flight_separation_time, flight_separation_unit)
-    _, _, _, final_profile = separate_flights(m_tim, m_lat, m_lon, vertical_profile, flight_separation_time, flight_separation_unit)    
+def plot_model_vs_dardar_data_vertical(tim, lat, lon, vertical_profile, model_variable, variable, flight_separation_time=1, flight_separation_unit="m", zoom_map_in_out=5, colormap="viridis"):
+    final_time, final_lat, final_lon, m_final_profile = separate_flights(tim, lat, lon, model_variable, flight_separation_time, flight_separation_unit)
+    _, _, _, final_profile = separate_flights(tim, lat, lon, variable, flight_separation_time, flight_separation_unit)    
     for ind, (i_time, i_lat, i_lon, m_i_profile, i_profile) in enumerate(zip(final_time, final_lat, final_lon, m_final_profile, final_profile)):
-        plot_combined_model_comparison(i_time, i_lat, i_lon, m_i_profile, i_profile, m_vertical_altitudes, zoom_map_in_out, str(ind+1), colormap=colormap)
+        plot_combined_model_comparison(i_time, i_lat, i_lon, m_i_profile, i_profile, vertical_profile, zoom_map_in_out, str(ind+1), colormap=colormap)
 
 
 # def plot_model_vs_dardar_data_vertical(m_tim, m_lat, m_lon, m_vertical_altitudes, m_vertical_profile, vertical_profile, flight_separation_time=1, flight_separation_unit="m", colormap="viridis"):
