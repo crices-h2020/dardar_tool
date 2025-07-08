@@ -219,10 +219,10 @@ def download_based_on_input(start_date, end_date, lat_1, lat_2, lon_1, lon_2, ve
     download_based_on_filenumber(file_list, cloud_0_mask_1, save_path, version, key_location)
 
 
-def check_overpass(start_date, end_date, lat_1, lat_2, lon_1, lon_2, version="V30", ploting_on=True):
+def check_overpass(start_date, end_date, lat_1, lat_2, lon_1, lon_2, version="V30", plotting_on=True):
     file_list = select_files_to_download_load(start_date, end_date, lat_1, lat_2, lon_1, lon_2, version)
     file_list = lut_duplicate_filter(file_list)
-    if ploting_on:
+    if plotting_on:
         for file in file_list:
             functions.plot_flight_box(file[0], file[1], file[2], file[3:],lat_1, lat_2, lon_1, lon_2)
             print(f"File: {int(file[0])} containing information")

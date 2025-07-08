@@ -454,7 +454,7 @@ def create_results_file(time, latitude, longitude, vertical_profile, vertical_co
 def write_to_results_file(time, latitude, longitude, vertical_column_var, filename):
     time = convert_time_to_int(time)
     with Dataset(f"{filename}.nc", "a") as nc:
-        begin_ind = nc["data"].shape[0]
+        begin_ind = nc["time"].shape[0]
         end_ind = begin_ind + latitude.shape[0]
         nc["time"][begin_ind:end_ind] = time
         nc["latitude"][begin_ind:end_ind] = latitude
@@ -471,8 +471,13 @@ def read_from_results_file_time_conversion(filename):
         final_lon = nc.variables["longitude"][:]
         final_profile = nc.variables["profile_values"][:][:]
         vert_profile = nc.variables["vertical_profile"][:]
+
+
     final_time = convert_int_to_time(final_time)
-    return final_time, final_lat, final_lon, final_profile, vert_profile
+    
+    
+    
+    return final_time, final_lat, final_lon, vert_profile, final_profile
 
 # In[]:
 # ########################################################################

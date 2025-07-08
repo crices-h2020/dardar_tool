@@ -370,6 +370,9 @@ def raw_validation_data_creator(start_date, end_date, lat_1, lat_2, lon_1, lon_2
         lat, lon, tim, var, height = functions.open_cloud_file_including_variable(file_path, variable_name, version)
         var_dim = var.ndim
         
+        if np.sum(tim.mask) == tim.data.size:
+            continue
+        
         if (ind == 0) or (ind == (len(file_list)-1)):
             time_filter = create_time_filter(start_date, end_date, tim)            
             lat = lat[time_filter]
@@ -450,17 +453,17 @@ def raw_validation_data_creator(start_date, end_date, lat_1, lat_2, lon_1, lon_2
         print("Results saved!")
         return
     
-    return final_time, final_lat, final_lon, final_profile, vert_profile
+    return final_time, final_lat, final_lon, vert_profile, final_profile
 
 
-def extractor_plotting_tool(start_date, end_date, lat_1, lat_2, lon_1, lon_2, variable_name, vertical_profile, exclude_top_on=True, exclude_bottom_on=True, flight_separation_time=1, flight_separation_unit="m", colormap="viridis", verbose=1, auto_load_missing_files=True, version="V30", raw_data_loc=None, key_location=""):
+def extractor_plotting_tool(start_date, end_date, lat_1, lat_2, lon_1, lon_2, variable_name, vertical_profile, exclude_top_on=True, exclude_bottom_on=True, flight_separation_time=1, flight_separation_unit="m", colormap="viridis", verbose=1, auto_load_missing_files=False, version="V30", raw_data_loc=None, key_location=""):
     save_results=False
     save_results_name="" 
     profile_dardar = None
     print_message("Processing Custom Profile...\n", "Processing Custom Profile...\n", verbose)
-    tim1, lat1, lon1, user_profile_values, user_profile_alts = raw_validation_data_creator(start_date, end_date, lat_1, lat_2, lon_1, lon_2, variable_name, vertical_profile, exclude_top_on, exclude_bottom_on, verbose, auto_load_missing_files, version, save_results, save_results_name, raw_data_loc, key_location=key_location)
+    tim1, lat1, lon1, user_profile_alts, user_profile_values = raw_validation_data_creator(start_date, end_date, lat_1, lat_2, lon_1, lon_2, variable_name, vertical_profile, exclude_top_on, exclude_bottom_on, verbose, auto_load_missing_files, version, save_results, save_results_name, raw_data_loc, key_location=key_location)
     print_message("Processing dardar Profile...\n", "Processing dardar Profile...\n", verbose)
-    tim2, lat2, lon2, dardar_profile_values, dardar_profile_alts = raw_validation_data_creator(start_date, end_date, lat_1, lat_2, lon_1, lon_2, variable_name, profile_dardar, exclude_top_on, exclude_bottom_on, verbose, auto_load_missing_files, version, save_results, save_results_name, raw_data_loc, key_location=key_location)
+    tim2, lat2, lon2, dardar_profile_alts, dardar_profile_values = raw_validation_data_creator(start_date, end_date, lat_1, lat_2, lon_1, lon_2, variable_name, profile_dardar, exclude_top_on, exclude_bottom_on, verbose, auto_load_missing_files, version, save_results, save_results_name, raw_data_loc, key_location=key_location)
     plt_tools.plot_data_comparison(tim1, lat1, lon1, user_profile_alts, user_profile_values, tim2, lat2, lon2, dardar_profile_alts, dardar_profile_values, flight_separation_time=1, flight_separation_unit="m", colormap=colormap)
 
 
