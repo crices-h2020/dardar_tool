@@ -70,7 +70,7 @@ if check_module("glob") & check_module("warnings") & check_module("shutil") & ch
     from dardar_tool.main.validation_data_creator.validation_data_creator_main import extractor_plotting_tool as extract_compare
     from dardar_tool.main.other_tools.plotting_functions import plot_saved_data
     from dardar_tool.main.other_tools.plotting_functions import plot_local_data
-    from dardar_tool.main.other_tools.plotting_functions import plot_model_vs_dardar_data_vertical as compare_model_data
+    from dardar_tool.main.other_tools.plotting_functions import plot_model_vs_dardar_data_vertical as compare_user_data
     from dardar_tool.source.functions_dardar_validation import setup
     from dardar_tool.source.functions_dardar_validation import read_from_results_file_time_conversion as read_data
     from dardar_tool.main.other_tools.data_manipulation_tools import calculate_cumulative_values_for_column as column_cumsum

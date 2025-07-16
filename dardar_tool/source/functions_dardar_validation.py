@@ -448,7 +448,7 @@ def create_results_file(time, latitude, longitude, vertical_profile, vertical_co
         nc_lat[:] = latitude
         nc_lon[:] = longitude
         nc_prof[:] = vertical_profile
-        nc_var[:][:] = vertical_column_var
+        nc_var[:, :] = vertical_column_var
 
 
 def write_to_results_file(time, latitude, longitude, vertical_column_var, filename):
@@ -459,7 +459,7 @@ def write_to_results_file(time, latitude, longitude, vertical_column_var, filena
         nc["time"][begin_ind:end_ind] = time
         nc["latitude"][begin_ind:end_ind] = latitude
         nc["longitude"][begin_ind:end_ind] = longitude
-        nc["profile_values"][begin_ind:end_ind][:] = vertical_column_var
+        nc["profile_values"][begin_ind:end_ind, :] = vertical_column_var
 
 
 def read_from_results_file_time_conversion(filename):
@@ -469,15 +469,12 @@ def read_from_results_file_time_conversion(filename):
         final_time = nc.variables["time"][:]
         final_lat = nc.variables["latitude"][:]
         final_lon = nc.variables["longitude"][:]
-        final_profile = nc.variables["profile_values"][:][:]
+        final_profile = nc.variables["profile_values"][:, :]
         vert_profile = nc.variables["vertical_profile"][:]
-
-
     final_time = convert_int_to_time(final_time)
-    
-    
-    
+    final_time = np.array([np.datetime64(dt.isoformat(), 'us') for dt in final_time.data])
     return final_time, final_lat, final_lon, vert_profile, final_profile
+
 
 # In[]:
 # ########################################################################
