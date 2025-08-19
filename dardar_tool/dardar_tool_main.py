@@ -59,7 +59,7 @@ if check_module("sys") & check_module("os"):
     import sys
     import os
     current_path = os.path.abspath(__file__)
-    sys.path.append(f"{current_path}/dardat_tool/")
+    sys.path.append(f"{current_path}/dardar_tool/")
 else:
     sys.exit(0)
 
