@@ -6,6 +6,7 @@ setup(
     description="Tool to download, extract and plot dardar data.",
     author="Arttu Väisänen",
     packages=find_packages(),
+    package_data={"dardar_tool": ["source/*.nc"]},
     python_requires="==3.10.18",
     install_requires=[
         "numpy==2.2.6",

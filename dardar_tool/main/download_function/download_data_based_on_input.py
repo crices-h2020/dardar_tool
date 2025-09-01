@@ -117,6 +117,8 @@ def read_pickle(filename):
 
 
 def load_user_config(key_location):
+    if key_location == "":
+        key_location = "./"
     user_path = key_location.rstrip("/")
     uk = read_pickle(os.path.join(user_path, "setup_file_00"))
     un = read_pickle(os.path.join(user_path, "setup_file_01"))

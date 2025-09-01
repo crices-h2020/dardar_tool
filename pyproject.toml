@@ -2,7 +2,6 @@
 requires = ["setuptools >= 77.0.3"]
 build-backend = "setuptools.build_meta"
 
-
 [project]
 name = "dardar_tool"
 version = "1.0.0"
@@ -19,3 +18,9 @@ dependencies = [
 ]
 authors = [{name="Arttu Väisänen"}]
 license = {text = ""}
+
+[tool.setuptools]
+packages = ["dardar_tool"]
+
+[tool.setuptools.package-data]
+dardar_tool = ["source/*.nc"]

@@ -323,9 +323,10 @@ def raw_validation_data_creator(start_date, end_date, lat_1, lat_2, lon_1, lon_2
         raw_data_loc = raw_data_loc
         print(f"Using user provided directory {raw_data_loc}")
     else:
-        caller_frame = inspect.stack()[1]
-        caller_file = caller_frame.filename
-        raw_data_loc = os.path.dirname(os.path.abspath(caller_file))
+        #caller_frame = inspect.stack()[1]
+        #caller_file = caller_frame.filename
+        #raw_data_loc = os.path.dirname(os.path.abspath(caller_file))
+        raw_data_loc = os.getcwd()
         print(f"Using directory {raw_data_loc}")
 
     if version == "V2":
@@ -343,7 +344,7 @@ def raw_validation_data_creator(start_date, end_date, lat_1, lat_2, lon_1, lon_2
 
     if len(file_list) == 0:
         print(f"No files to process!\nCheck if file location path to dardar files is correct. Current path={raw_data_loc}. Only the main folder containing subfolders needs to be provided.\nCheck that time range matches your datas time range.")
-        sys.exit(0)
+        return
 
     missing_files_count = relevant_files_list[:, 0].size - len(file_list)
 
@@ -355,7 +356,7 @@ def raw_validation_data_creator(start_date, end_date, lat_1, lat_2, lon_1, lon_2
             load_functions.download_based_on_filenumber(missing_files_list, 0, raw_data_loc, version, key_location)
         else:
             print("Provide a key location if you want to download files!")
-            sys.exit(0)
+            return
             
 
     elif (missing_files_count > 0) and (auto_load_missing_files == False):
@@ -447,7 +448,7 @@ def raw_validation_data_creator(start_date, end_date, lat_1, lat_2, lon_1, lon_2
 
     if ("final_time" not in locals()):
         print("Files didn't contain any information for your specified spatio temporal location.")
-        sys.exit(0)
+        return
     
     if save_results:
         print("Results saved!")
