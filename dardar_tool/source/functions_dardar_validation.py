@@ -487,7 +487,7 @@ def write_pickle(filename, data):
 
 
 def setup():
-    print("This setup process encrypts and saves credentials localy to your computer. It also deletes localy saved old credentials. Do you want to proceed?")
+    print("This setup process encrypts and saves credentials locally to your computer. It also deletes localy saved old credentials. Do you want to proceed?")
     proceed = input("yes/[no]:")
     if proceed != "yes" and proceed != "Yes" and proceed != "YES":
         print("Exiting setup without modifications")
@@ -502,6 +502,8 @@ def setup():
     cipher_p = Fernet(keypass)
     encrypted_pass = cipher_p.encrypt(passwor.encode('utf-8'))
     setup_path = input("Please enter save path for keys:")
+    if setup_path == "":
+        setup_path = "."
     write_pickle(f"{setup_path}/setup_file_00", keyname)    
     write_pickle(f"{setup_path}/setup_file_01", encrypted_name)
     write_pickle(f"{setup_path}/setup_file_10", keypass)

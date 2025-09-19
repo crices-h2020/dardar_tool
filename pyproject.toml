@@ -19,8 +19,8 @@ dependencies = [
 authors = [{name="Arttu Väisänen"}]
 license = {text = ""}
 
-[tool.setuptools]
-packages = ["dardar_tool"]
+[tool.setuptools.packages.find]
+include = ["dardar_tool", "dardar_tool.*"]
 
 [tool.setuptools.package-data]
-dardar_tool = ["source/*.nc"]
+dardar_tool.source = ["*.nc"]

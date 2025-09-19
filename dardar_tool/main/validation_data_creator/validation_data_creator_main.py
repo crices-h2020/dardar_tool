@@ -192,6 +192,7 @@ def find_closest(vertical_p, dardar_h, dar_var):
 def calculate_vertical_profile(variable, dardar_height, user_profile, exclude_mode_top_on=True, exclude_mode_bottom_on=True):
     dardar_height = np.sort(dardar_height)
     user_profile = np.sort(user_profile)
+    variable = np.flip(variable)
     weighted_average_new_profile = np.zeros((user_profile.shape))
     for ind, vertical_point in enumerate(user_profile):
         if ind == 0:
@@ -417,6 +418,7 @@ def raw_validation_data_creator(start_date, end_date, lat_1, lat_2, lon_1, lon_2
                     if np.mod(ii , int(var.shape[0]*0.1)) == 0:
                         print_message("", f"File {ind+1}/{len(file_list)} Done: {ii+1}/{var.shape[0]}\n", verbose)
                     var_user_profile, _ = calculate_vertical_profile(dar_profile, height, vertical_profile, exclude_top_on, exclude_bottom_on)
+                    var_user_profile = np.flip(var_user_profile, axis=0)
                     
                     if categorical_variable_type_check(variable_name):
                         var_user_profile = np.round(var_user_profile, 0)
