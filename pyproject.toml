@@ -23,4 +23,4 @@ license = {text = ""}
 include = ["dardar_tool", "dardar_tool.*"]
 
 [tool.setuptools.package-data]
-dardar_tool.source = ["*.nc"]
+tool = ["source/*.nc"]
