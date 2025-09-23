@@ -26,4 +26,4 @@ include-package-data = true
 include = ["dardar_tool", "dardar_tool.*"]
 
 [tool.setuptools.package-data]
-tool = ["source/*.nc"]
+"dardar_tool.source" = ["*.nc"]
