@@ -19,6 +19,9 @@ dependencies = [
 authors = [{name="Arttu Väisänen"}]
 license = {text = ""}
 
+[tool.setuptools]
+include-package-data = true
+
 [tool.setuptools.packages.find]
 include = ["dardar_tool", "dardar_tool.*"]
 

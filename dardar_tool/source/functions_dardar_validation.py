@@ -494,7 +494,7 @@ def setup():
         return
     print("Proceeding with setup")
     username = input("Enter ICARE username: ")
-    passwor = getpass.getpass("Enter ICARE Pasword: ")
+    passwor = getpass.getpass("Enter ICARE Password: ")
     keyname = Fernet.generate_key()
     cipher_n = Fernet(keyname)
     encrypted_name = cipher_n.encrypt(username.encode('utf-8'))
