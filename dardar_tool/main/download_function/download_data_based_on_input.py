@@ -149,7 +149,7 @@ def download_t_v2(file_list, data_product, save_path, key_location):
                 file_to_download = [file for file in directory_contents if file.endswith(file_str)]
                 if len(file_to_download) == 1:
                     file_to_download = file_to_download[0]
-                    print("Loading:", file_to_download)
+                    print("Downloaded:", file_to_download)
                     remote_file_path = f"/SPACEBORNE/MULTI_SENSOR/DARDAR_{data_product}/{year}/{date}/{file_to_download}"
                     local_path = save_path + "/" + file_to_download
                     sftp.get(remote_file_path, local_path)
@@ -173,11 +173,10 @@ def download_t_v3(file_list, version_number, save_path, key_location):
                 file_to_download = [file for file in directory_contents if file.endswith(file_str)]
                 if len(file_to_download) == 1:
                     file_to_download = file_to_download[0]
-                    print("Loading:", file_to_download, end=" ")
+                    print("Downloaded:", file_to_download)
                     remote_file_path = f"/SPACEBORNE/CLOUDSAT/DARDAR-CLOUD.v3.{version_number}0/{year}/{date}/{file_to_download}"
                     local_path = save_path + "/" + file_to_download
                     sftp.get(remote_file_path, local_path)
-                print("Done.")
 
 
 def download_based_on_filenumber(file_list, cloud_0_mask_1, save_path, version, key_location):
