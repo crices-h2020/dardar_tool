@@ -173,10 +173,11 @@ def download_t_v3(file_list, version_number, save_path, key_location):
                 file_to_download = [file for file in directory_contents if file.endswith(file_str)]
                 if len(file_to_download) == 1:
                     file_to_download = file_to_download[0]
-                    print("Loading:", file_to_download)
+                    print("Loading:", file_to_download, end=" ")
                     remote_file_path = f"/SPACEBORNE/CLOUDSAT/DARDAR-CLOUD.v3.{version_number}0/{year}/{date}/{file_to_download}"
                     local_path = save_path + "/" + file_to_download
                     sftp.get(remote_file_path, local_path)
+                    print("Done.")
 
 
 def download_based_on_filenumber(file_list, cloud_0_mask_1, save_path, version, key_location):
@@ -211,9 +212,10 @@ def download_based_on_input(start_date, end_date, lat_1, lat_2, lon_1, lon_2, ve
         save_path = os.path.basename(save_path)
         print(f"Using user provided directory {save_path}")
     else:
-        caller_frame = inspect.stack()[1]
-        caller_file = caller_frame.filename
-        save_path = os.path.dirname(os.path.abspath(caller_file))
+        #caller_frame = inspect.stack()[1]
+        #caller_file = caller_frame.filename
+        #save_path = os.path.dirname(os.path.abspath(caller_file))
+        save_path = os.getcwd()
     file_list = select_files_to_download_load(start_date, end_date, lat_1, lat_2, lon_1, lon_2, version)
     file_list = lut_duplicate_filter(file_list)
     print(f"{len(file_list)} files found for this spatio temporal location.")
