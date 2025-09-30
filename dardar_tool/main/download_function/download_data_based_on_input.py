@@ -177,7 +177,7 @@ def download_t_v3(file_list, version_number, save_path, key_location):
                     remote_file_path = f"/SPACEBORNE/CLOUDSAT/DARDAR-CLOUD.v3.{version_number}0/{year}/{date}/{file_to_download}"
                     local_path = save_path + "/" + file_to_download
                     sftp.get(remote_file_path, local_path)
-                    print("Done.")
+                print("Done.")
 
 
 def download_based_on_filenumber(file_list, cloud_0_mask_1, save_path, version, key_location):
