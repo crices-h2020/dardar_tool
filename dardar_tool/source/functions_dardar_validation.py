@@ -34,6 +34,23 @@ from cartopy.feature import COASTLINE
 # ########################################################################
 
 
+def check_latitudes_ok(lat_1, lat_2):
+    if lat_1 < lat_2:
+        raise ValueError("Error: lat_1 < lat_2, reverse the input variables!")
+    elif lat_1 == lat_2:
+        raise ValueError("Warning: lat_1 = lat_2, you will not find any data, set lat_1 > lat_2")
+    else:
+        return True
+
+
+def check_input_ok(lat_1, lat_2):
+    try:
+        return check_latitudes_ok(lat_1, lat_2)
+    except ValueError as e:
+        print(e)
+        return False
+
+
 def time_formulation(data_time, year_doy):
     file_epoch = datetime.datetime.strptime(year_doy, "%Y%j")
     file_epoch = np.datetime64(file_epoch)

@@ -206,6 +206,8 @@ def download_based_on_filenumber(file_list, cloud_0_mask_1, save_path, version, 
 # ########################################################################
 
 def download_based_on_input(start_date, end_date, lat_1, lat_2, lon_1, lon_2, version="V30", cloud_0_mask_1=0, save_path=None, key_location=""):
+    if functions.check_input_ok(lat_1, lat_2):
+        return
     if save_path:
         save_path = os.path.normpath(save_path)
         save_path = os.path.basename(save_path)
@@ -223,6 +225,8 @@ def download_based_on_input(start_date, end_date, lat_1, lat_2, lon_1, lon_2, ve
 
 
 def check_overpass(start_date, end_date, lat_1, lat_2, lon_1, lon_2, version="V30", plotting_on=True):
+    if functions.check_input_ok(lat_1, lat_2):
+        return
     file_list = select_files_to_download_load(start_date, end_date, lat_1, lat_2, lon_1, lon_2, version)
     file_list = lut_duplicate_filter(file_list)
     if plotting_on:

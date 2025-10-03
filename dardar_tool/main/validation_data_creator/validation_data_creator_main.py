@@ -320,6 +320,8 @@ def print_message(message1, message2, print_on):
 
 
 def raw_validation_data_creator(start_date, end_date, lat_1, lat_2, lon_1, lon_2, variable_name, vertical_profile=None, exclude_top_on=True, exclude_bottom_on=True, verbose=1, auto_load_missing_files=False, version="V30", save_results=False, save_results_name="cloud_data", raw_data_loc=None, key_location=""):
+    if functions.check_input_ok(lat_1, lat_2):
+        return
     if raw_data_loc:
         raw_data_loc = raw_data_loc
         print(f"Using user provided directory {raw_data_loc}")
@@ -460,6 +462,8 @@ def raw_validation_data_creator(start_date, end_date, lat_1, lat_2, lon_1, lon_2
 
 
 def extractor_plotting_tool(start_date, end_date, lat_1, lat_2, lon_1, lon_2, variable_name, vertical_profile, exclude_top_on=True, exclude_bottom_on=True, flight_separation_time=1, flight_separation_unit="m", colormap="viridis", verbose=1, auto_load_missing_files=False, version="V30", raw_data_loc=None, key_location=""):
+    if functions.check_input_ok(lat_1, lat_2):
+        return
     save_results=False
     save_results_name="" 
     profile_dardar = None
