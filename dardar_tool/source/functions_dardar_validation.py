@@ -40,7 +40,7 @@ def check_latitudes_ok(lat_1, lat_2):
     elif lat_1 == lat_2:
         raise ValueError("Warning: lat_1 = lat_2, you will not find any data, set lat_1 > lat_2")
     else:
-        return True
+        return False
 
 
 def check_input_ok(lat_1, lat_2):
@@ -48,7 +48,7 @@ def check_input_ok(lat_1, lat_2):
         return check_latitudes_ok(lat_1, lat_2)
     except ValueError as e:
         print(e)
-        return False
+        return True
 
 
 def time_formulation(data_time, year_doy):
