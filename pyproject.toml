@@ -17,7 +17,7 @@ dependencies = [
     "cftime==1.6.4",
 ]
 authors = [{name="Arttu Väisänen"}]
-license = {text = ""}
+license = {text = "MIT License"}
 
 [tool.setuptools]
 include-package-data = true
