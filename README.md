@@ -7,7 +7,7 @@ This pakage provides tools for model validation with DARDAR-product. For more in
 **2.** Install python3.  **Important:** Pakage is locked in python version 3.10.18 so that it will always work with that installation.
 
 **3.** Install pakage with the following line:
-  **pip install git+https://github.com/ADD GITHUB REPO HERE.git**
+  **pip install git+https://github.com/crices-h2020/dardar_tool.git**
 
 **4.** Import dardar tool with following line:
 ```python
